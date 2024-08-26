@@ -1,45 +1,152 @@
 ---
 import Layout from '../layouts/Layout.astro'
-import { surveyQuestions } from '../data/qunstions'
+import { surveyQuestions, } from '../data/qunstions'
+import { spiritualGifts, } from '../data/spiritualGifts'
 import type { Question } from '../@types/Question'
+import TableSum from '../components/TableSum.astro'
 ---
 
 <Layout title="แบบสำรวจของประทาน">
   <div class="container mt-5">
     <h1 class="mb-4"></h1>
-    <table class="table table-bordered">
+    <form>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">ลำดับ</th>
+            <th scope="col">คำถามสำรวจของประทาน</th>
+            <th scope="col">มาก 3</th>
+            <th scope="col">บ้าง 2</th>
+            <th scope="col">น้อย 1</th>
+            <th scope="col">ไม่มี 0</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            surveyQuestions.map((item: Question) => (
+              <tr>
+                <th scope="row">{item.index}</th>
+                <td>{item.question}</td>
+                <td>
+                  <input
+                    type="radio"
+                    name={`${item.index}`}
+                    value="3"
+                    checked
+                  />
+                </td>
+                <td>
+                  <input type="radio" name={`${item.index}`} value="2" />
+                </td>
+                <td>
+                  <input type="radio" name={`${item.index}`} value="1" />
+                </td>
+                <td>
+                  <input type="radio" name={`${item.index}`} value="0" />
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <div id="sum-display"></div>
+    </form>
+    <!-- <p id="selected-values">Selected Values: None</p> -->
+  </div>
+  <div class="container mt-5">
+    <table class="table table-bordered text-center">
       <thead>
         <tr>
-          <th scope="col">ลำดับ</th>
-          <th scope="col">คำถามสำรวจของประทาน</th>
-          <th scope="col">มาก 3</th>
-          <th scope="col">บ้าง 2</th>
-          <th scope="col">น้อย 1</th>
-          <th scope="col">ไม่มี 0</th>
+          <th scope="col">รวม</th>
+          <th scope="col">อันดับ</th>
+          <th scope="col">ชื่อของประทาน</th>
         </tr>
       </thead>
       <tbody>
-        {
-          surveyQuestions.map((item: Question) => (
-            <tr>
-              <th scope="row">{item.index}</th>
-              <td>{item.question}</td>
-              <td>
-                <input type="radio" name={`q${item.index}`} value="3" />
-              </td>
-              <td>
-                <input type="radio" name={`q${item.index}`} value="2" />
-              </td>
-              <td>
-                <input type="radio" name={`q${item.index}`} value="1" />
-              </td>
-              <td>
-                <input type="radio" name={`q${item.index}`} value="0" />
-              </td>
-            </tr>
-          ))
-        }
+        {spiritualGifts.map((item:string,index:number) => 
+          <tr>
+            <td id={String(index)}></td>
+            <td></td>
+            <td>{item}</td>
+          </tr>
+        )}
+       
       </tbody>
     </table>
   </div>
+
+  <script>
+    interface SpiritualGift {
+      list: number[]
+      sum: number
+    }
+
+    const spiritualGifts: { [key: string]: SpiritualGift } = {
+      เผยพระวจนะ: { list: [1, 51, 76, 101], sum: 0 },
+      อภิบาล: { list: [2, 52, 77, 102], sum: 0 },
+      การสอน: { list: [3, 53, 78, 103], sum: 0 },
+      ถ้อยคำประกอบด้วยสติปัญญา: { list: [4, 54, 79, 104], sum: 0 },
+      ถ้อยคำประกอบด้วยความรู้: { list: [5, 55, 80, 105], sum: 0 },
+      การเลี้ยงดูและหนุนใจ: { list: [6, 56, 81, 106], sum: 0 },
+      การสังเกตวิญญาณ: { list: [7, 57, 82, 107], sum: 0 },
+      การปรึกษา: { list: [8, 58, 83, 108], sum: 0 },
+      การวางแผนดี: { list: [9, 59, 84, 109], sum: 0 },
+      ความเมตตา: { list: [10, 60, 85, 110], sum: 0 },
+      มัธยัสถ์: { list: [11, 61, 86, 111], sum: 0 },
+      ผู้ประกาศ: { list: [12, 62, 87, 112], sum: 0 },
+      การรับรองแขก: { list: [13, 63, 88, 113], sum: 0 },
+      ความเชื่อ: { list: [14, 64, 89, 114], sum: 0 },
+      ผู้ควบคุม: { list: [15, 65, 90, 115], sum: 0 },
+      ผู้บริหาร: { list: [16, 66, 91, 116], sum: 0 },
+      การจัดการดี: { list: [17, 67, 92, 117], sum: 0 },
+      การรักษาโรค: { list: [18, 68, 93, 118], sum: 0 },
+      การพูดภาษาแปลก: { list: [19, 69, 94, 119], sum: 0 },
+      การแปลภาษาแปลก: { list: [20, 70, 95, 120], sum: 0 },
+      อธิษฐาน: { list: [21, 71, 96, 121], sum: 0 },
+      การอยู่เป็นโสด: { list: [22, 72, 97, 122], sum: 0 },
+      การอธิษฐานซ่อนซอน: { list: [23, 73, 98, 123], sum: 0 },
+      การทำบัญชี: { list: [24, 74, 99, 124], sum: 0 },
+      ผู้อุปการะ: { list: [25, 75, 100, 125], sum: 0 },
+    }
+
+    document.forms[0].addEventListener('submit', async e => {
+      e.preventDefault()
+
+      const formElement = e.target as HTMLFormElement
+      const formData = new FormData(formElement)
+      const selectedValues: { index: string; value: number }[] = []
+      for (let [name, value] of formData.entries()) {
+        selectedValues.push({ index: name, value: parseInt(String(value)) })
+      }
+
+      const keys = Object.keys(spiritualGifts)
+
+      selectedValues.forEach(item => {
+        keys.forEach(key => {
+          const list = spiritualGifts[key].list
+          if (list.includes(parseInt(item.index))) {
+            spiritualGifts[key].sum += item.value
+          }
+        })
+      })
+      keys.forEach(key => {
+        const sum = spiritualGifts[key].sum
+        if (sum > 0) {
+          console.log(`${key}: ${sum}`)
+        }
+      })
+
+      const values = Object.values(spiritualGifts)
+      const sums: number[] = values.map(value => value.sum)
+      // Display the first sum value on the HTML page
+
+      sums.forEach((s: number, i: number) => {
+        const sum = document.getElementById(String(i))
+        if (sum) {
+          sum.innerHTML = String(sums[i])
+        }
+      })
+    })
+  </script>
 </Layout>
