@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro'
-import { surveyQuestions, } from '../data/qunstions'
-import { spiritualGifts, } from '../data/spiritualGifts'
+import { surveyQuestions } from '../data/qunstions'
+import { spiritualGifts } from '../data/spiritualGifts'
 import type { Question } from '../@types/Question'
 import TableSum from '../components/TableSum.astro'
 ---
@@ -59,19 +59,18 @@ import TableSum from '../components/TableSum.astro'
       <thead>
         <tr>
           <th scope="col">รวม</th>
-          <th scope="col">อันดับ</th>
           <th scope="col">ชื่อของประทาน</th>
         </tr>
       </thead>
       <tbody>
-        {spiritualGifts.map((item:string,index:number) => 
-          <tr>
-            <td id={String(index)}></td>
-            <td></td>
-            <td>{item}</td>
-          </tr>
-        )}
-       
+        {
+          spiritualGifts.map((item: string, index: number) => (
+            <tr>
+              <td id={String(index)} />
+              <td>{item}</td>
+            </tr>
+          ))
+        }
       </tbody>
     </table>
   </div>
@@ -110,9 +109,15 @@ import TableSum from '../components/TableSum.astro'
       ผู้อุปการะ: { list: [25, 75, 100, 125], sum: 0 },
     }
 
+    const resetSums = () => {
+      Object.keys(spiritualGifts).forEach(key => {
+        spiritualGifts[key].sum = 0
+      })
+    }
+
     document.forms[0].addEventListener('submit', async e => {
       e.preventDefault()
-
+      resetSums()
       const formElement = e.target as HTMLFormElement
       const formData = new FormData(formElement)
       const selectedValues: { index: string; value: number }[] = []
