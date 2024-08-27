@@ -58,48 +58,20 @@ test('Radio button selection test', async ({ page }) => {
   expect(await page.isChecked('input[name="1"][value="0"]')).toBeTruthy()
 })
 
-// test('Sum scores from the table', async ({ page }) => {
-//   // Navigate to the page containing the table
-//   await page.goto(' http://localhost:4321/GiftFromGod')
-
-//   const questionIndices = [1, 26, 51, 76, 101]
-
-//   for (const index of questionIndices) {
-//     const selector = `input[name="${index}"][value="0"]`;
-//     console.log(`Checking selector: ${selector}`);
-
-//     // Wait for the element to be present
-//     await page.waitForSelector(selector, { timeout: 10000 });
-
-//     // Check the input
-//     await page.check(selector);
-
-//     // Verify the radio button is checked
-//     const isChecked = await page.isChecked(selector);
-//     console.log(`Input checked state for ${selector}: ${isChecked}`);
-//     expect(isChecked).toBeTruthy();
-//   }
-//   await page.click('#submit')
-
-//   const sums = await page.$$eval('table tr td:first-child', tds =>
-//     tds.map(td => td?.textContent?.trim())
-//   );
-
-//   expect(sums[0]).toBe(String(0));
-// })
 
 const getSum = async (page: Page, index: number) => {
   const sums = await page.$$eval('table tr td:first-child', tds =>
     tds.map(td => td?.textContent?.trim())
   )
-  console.log("sums",sums)
+  // console.log("sums",sums)
   return sums[index]
 }
 
 test('sum เผยพระวจนะ', async ({ page }) => {
   await page.goto(' http://localhost:4321/GiftFromGod')
-
-  const list = spiritualGifts["เผยพระวจนะ"].list
+  const indexKey = 0 
+  const key = spiritualGiftsKey[indexKey]
+  const list = spiritualGifts[key].list
   console.log("list",list)
   const checkedValue = [0, 1, 2, 3, 0]
   const expectedSum = checkedValue.reduce(
@@ -115,7 +87,33 @@ test('sum เผยพระวจนะ', async ({ page }) => {
 
   await page.click('#submit')
   
-  const sum = await getSum(page, 0)
+  const sum = await getSum(page, indexKey)
   console.log("sum",sum)
+  expect(sum).toBe(String(expectedSum))
+})
+
+
+test('sum อภิบาล', async ({ page }) => {
+  await page.goto(' http://localhost:4321/GiftFromGod')
+  const indexKey = 0 
+  const key = spiritualGiftsKey[indexKey]
+  const list = spiritualGifts[key].list
+  // console.log("list",list)
+  const checkedValue = [0,0,0,0,0]
+  const expectedSum = checkedValue.reduce(
+    (accumulator, currentValue) => accumulator + currentValue,
+    0
+  )
+  for (const [i, index] of list.entries()) {
+    const selector = `input[name="${index}"][value="${checkedValue[i]}"]`;
+    console.log(`Checking selector: ${selector}`);
+    await page.waitForSelector(selector, { timeout: 30000 });
+    await page.check(selector);
+  }
+
+  await page.click('#submit')
+  
+  const sum = await getSum(page, indexKey)
+  // console.log("sum",sum)
   expect(sum).toBe(String(expectedSum))
 })
