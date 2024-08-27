@@ -1,4 +1,4 @@
-export const spiritualGifts = [
+export const spiritualGiftsKey = [
   'เผยพระวจนะ',
   'อภิบาล',
   'การสอน',

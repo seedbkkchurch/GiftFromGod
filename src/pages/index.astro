@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro'
 import { surveyQuestions } from '../data/qunstions'
-import { spiritualGifts } from '../data/spiritualGifts'
+import { spiritualGiftsKey } from '../data/spiritualGifts'
 import type { Question } from '../@types/Question'
 import TableSum from '../components/TableSum.astro'
 ---
@@ -21,7 +21,7 @@ import TableSum from '../components/TableSum.astro'
             <th scope="col">ไม่มี 0</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="surveyQuestions">
           {
             surveyQuestions.map((item: Question) => (
               <tr>
@@ -49,7 +49,7 @@ import TableSum from '../components/TableSum.astro'
           }
         </tbody>
       </table>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button id="submit"type="submit" class="btn btn-primary">Calculate</button>
       <div id="sum-display"></div>
     </form>
     <!-- <p id="selected-values">Selected Values: None</p> -->
@@ -62,9 +62,9 @@ import TableSum from '../components/TableSum.astro'
           <th scope="col">ชื่อของประทาน</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody >
         {
-          spiritualGifts.map((item: string, index: number) => (
+          spiritualGiftsKey.map((item: string, index: number) => (
             <tr>
               <td id={String(index)} />
               <td>{item}</td>
@@ -85,10 +85,10 @@ import TableSum from '../components/TableSum.astro'
       เผยพระวจนะ: { list: [1, 26, 51, 76, 101], sum: 0 },
       อภิบาล: { list: [2, 27, 52, 77, 102], sum: 0 },
       การสอน: { list: [3, 28, 53, 78, 103], sum: 0 },
-      ถ้อยคำประกอบด้วยสติปัญญา: { list: [29, 54, 79, 104], sum: 0 },
-      ถ้อยคำประกอบด้วยความรู้: { list: [30, 55, 80, 105], sum: 0 },
-      การเลี้ยงดูและหนุนใจ: { list: [31, 56, 81, 106], sum: 0 },
-      การสังเกตวิญญาณ: { list: [32, 57, 82, 107], sum: 0 },
+      ถ้อยคำประกอบด้วยสติปัญญา: { list: [4,29, 54, 79, 104], sum: 0 },
+      ถ้อยคำประกอบด้วยความรู้: { list: [5,30, 55, 80, 105], sum: 0 },
+      การเลี้ยงดูและหนุนใจ: { list: [6,31, 56, 81, 106], sum: 0 },
+      การสังเกตวิญญาณ: { list: [7,32, 57, 82, 107], sum: 0 },
       การปรึกษา: { list: [8, 33, 58, 83, 108], sum: 0 },
       การวางแผนดี: { list: [9, 34, 59, 84, 109], sum: 0 },
       ความเมตตา: { list: [10, 35, 60, 85, 110], sum: 0 },

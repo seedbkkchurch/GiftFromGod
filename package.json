@@ -8,7 +8,9 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "format": "prettier --write --plugin-search-dir=. ."
+    "format": "prettier --write --plugin-search-dir=. .",
+    "test-ui": "npx playwright test --ui",
+    "test": "npx playwright test"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.3",
@@ -16,6 +18,8 @@
     "typescript": "^5.5.4"
   },
   "devDependencies": {
+    "@playwright/test": "^1.46.1",
+    "@types/node": "^22.5.0",
     "prettier": "^3.3.3",
     "prettier-plugin-astro": "^0.14.1"
   }
