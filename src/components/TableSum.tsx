@@ -65,6 +65,7 @@ export const TableSum: React.FC = () => {
   }
 
   const handleScreenshot = async () => {
+    console.log("handleScreenshot")
     if (captureRef.current && resultRef.current) {
       const canvas = await html2canvas(captureRef.current)
       const img = document.createElement('img')
@@ -146,7 +147,7 @@ export const TableSum: React.FC = () => {
             onChange={handleInputChange}
           />
 
-          {/* <div ref={resultRef} className="mt-3"></div> */}
+          <div ref={resultRef} className="mt-3"></div> 
         </form>
       </div>
       <div className="container mt-5" ref={captureRef}>
