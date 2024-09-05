@@ -3,6 +3,7 @@ import html2canvas from 'html2canvas'
 import { surveyQuestions } from '../data/qunstions'
 import { spiritualGiftsKey } from '../data/spiritualGifts'
 import type { Question } from '../@types/Question'
+import HoverImage from './HoverImage'
 
 export const TableSum: React.FC = () => {
   const [sums, setSums] = useState<number[]>(
@@ -65,7 +66,7 @@ export const TableSum: React.FC = () => {
   }
 
   const handleScreenshot = async () => {
-    console.log("handleScreenshot")
+    console.log('handleScreenshot')
     if (captureRef.current && resultRef.current) {
       const canvas = await html2canvas(captureRef.current)
       const img = document.createElement('img')
@@ -127,7 +128,7 @@ export const TableSum: React.FC = () => {
               ))}
             </tbody>
           </table>
-          <div className="btn-group" role="group" aria-label="Basic example">
+          <fieldset className="btn-group" aria-label="Basic example">
             <button type="submit" className="btn btn-primary mt-3 mr-4">
               Calculate
             </button>
@@ -137,7 +138,7 @@ export const TableSum: React.FC = () => {
             >
               Take Screenshot
             </button>
-          </div>
+          </fieldset>
           <input
             className="form-control form-control-lg mt-2"
             type="text"
@@ -147,7 +148,7 @@ export const TableSum: React.FC = () => {
             onChange={handleInputChange}
           />
 
-          <div ref={resultRef} className="mt-3"></div> 
+          <div ref={resultRef} className="mt-3"></div>
         </form>
       </div>
       <div className="container mt-5" ref={captureRef}>
@@ -161,9 +162,11 @@ export const TableSum: React.FC = () => {
           </thead>
           <tbody>
             {spiritualGiftsKey.map((item: string, index: number) => (
-              <tr key={index}>
+              <tr key={item}>
                 <td>{sums[index]}</td>
-                <td>{item}</td>
+                <td>
+                  {item} <HoverImage />
+                </td>
               </tr>
             ))}
           </tbody>
