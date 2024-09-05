@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import html2canvas from 'html2canvas'
 import { surveyQuestions } from '../data/qunstions'
-import { spiritualGiftsKey } from '../data/spiritualGifts'
+import { spiritualGiftsKey, type SpiritualGifts } from '../data/spiritualGifts'
 import type { Question } from '../@types/Question'
 import HoverImage from './HoverImage'
 
@@ -161,11 +161,11 @@ export const TableSum: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {spiritualGiftsKey.map((item: string, index: number) => (
-              <tr key={item}>
+            {spiritualGiftsKey.map((item: SpiritualGifts, index: number) => (
+              <tr key={item.Gift}>
                 <td>{sums[index]}</td>
                 <td>
-                  {item} <HoverImage />
+                  {item.Gift} <HoverImage pathImages={item.pathImages}/>
                 </td>
               </tr>
             ))}

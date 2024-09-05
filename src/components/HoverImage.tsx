@@ -2,11 +2,11 @@ import React from 'react';
 import { OverlayTrigger, Tooltip, type TooltipProps } from 'react-bootstrap';
 import type { JSX } from 'react/jsx-runtime';
 
-const HoverImage = () => {
+const HoverImage = ({pathImages}: { pathImages: string }) => {
 
   const renderTooltip = (props: JSX.IntrinsicAttributes & TooltipProps & React.RefAttributes<HTMLDivElement>) => (
     <Tooltip id="image-tooltip" {...props}>
-      <img src="GiftFromGod/notes/การประกาศ.png" alt="Hover" />
+      <img src={pathImages} alt="Hover" />
     </Tooltip>
   );
 
