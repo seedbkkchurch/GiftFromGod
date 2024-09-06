@@ -10,7 +10,7 @@ const HoverImage = ({pathImages}: { pathImages: string }) => {
   const baseUrl = getBaseUrl();
   const renderTooltip = (props: JSX.IntrinsicAttributes & TooltipProps & React.RefAttributes<HTMLDivElement>) => (
     <Tooltip id="image-tooltip" {...props}>
-      <img src={pathImages} alt="Hover" />
+      <img src={`${baseUrl}/${pathImages}`} alt="Hover" />
     </Tooltip>
   );
 
