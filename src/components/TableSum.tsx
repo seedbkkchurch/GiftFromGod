@@ -136,7 +136,7 @@ export const TableSum: React.FC = () => {
               onClick={handleScreenshot}
               className="btn btn-secondary mt-3 mr-4"
             >
-              Take Screenshot
+              บันรูปภาพตาราง Stat
             </button>
           </fieldset>
           <input
