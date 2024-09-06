@@ -1,5 +1,5 @@
 import { test, expect, type Page } from '@playwright/test'
-import { spiritualGiftsKey } from '../src/data/spiritualGifts'
+import { spiritualGiftsKey, type SpiritualGifts } from '../src/data/spiritualGifts'
 
 interface SpiritualGift {
   list: number[]
@@ -72,8 +72,8 @@ const testSum = async (
   checkedValue: number[]
 ) => {
   await page.goto('http://localhost:4321/GiftFromGod')
-  const key = spiritualGiftsKey[indexKey]
-  const list = spiritualGifts[key].list
+  const key:SpiritualGifts = spiritualGiftsKey[indexKey]
+  const list = spiritualGifts[key.Gift].list
   console.log("list", list);
 
   const expectedSum = checkedValue.reduce(
