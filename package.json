@@ -13,11 +13,11 @@
     "test": "npx playwright test"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.3",
+    "@astrojs/check": "^0.9.4",
     "@astrojs/react": "^3.6.2",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
-    "astro": "^4.14.5",
+    "astro": "^4.16.1",
     "bootstrap": "^5.3.3",
     "html2canvas": "^1.4.1",
     "react": "^18.3.1",

@@ -5,6 +5,10 @@ import { spiritualGiftsKey, type SpiritualGifts } from '../data/spiritualGifts'
 import type { Question } from '../@types/Question'
 import HoverImage from './HoverImage'
 
+interface ISpiritualGifts {
+  [key: string]: { list: number[]; sum: number }
+}
+
 export const TableSum: React.FC = () => {
   const [sums, setSums] = useState<number[]>(
     Array(spiritualGiftsKey.length).fill(0)
@@ -12,6 +16,17 @@ export const TableSum: React.FC = () => {
   const [yourName, setYourName] = useState('')
   const captureRef = React.useRef<HTMLDivElement>(null)
   const resultRef = React.useRef<HTMLDivElement>(null)
+
+  const handleExportJson = (spiritualGifts:ISpiritualGifts)=> {
+    const dataStr = JSON.stringify(spiritualGifts, null, 2)
+    const blob = new Blob([dataStr], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'spiritualGifts.json'
+    a.click()
+    URL.revokeObjectURL(url)
+  }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -63,6 +78,7 @@ export const TableSum: React.FC = () => {
 
     const newSums = keys.map(key => spiritualGifts[key].sum)
     setSums(newSums)
+    handleExportJson(spiritualGifts)
   }
 
   const handleScreenshot = async () => {
@@ -86,6 +102,7 @@ export const TableSum: React.FC = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setYourName(e.target.value)
   }
+
   return (
     <div>
       <div className="container mt-5">
@@ -130,7 +147,7 @@ export const TableSum: React.FC = () => {
           </table>
           <fieldset className="btn-group" aria-label="Basic example">
             <button type="submit" className="btn btn-primary mt-3 mr-4">
-              Calculate
+              Calculate and Download JSON
             </button>
             <button
               onClick={handleScreenshot}
@@ -165,7 +182,7 @@ export const TableSum: React.FC = () => {
               <tr key={item.Gift}>
                 <td>{sums[index]}</td>
                 <td>
-                  {item.Gift} <HoverImage pathImages={item.pathImages}/>
+                  {item.Gift} <HoverImage pathImages={item.pathImages} />
                 </td>
               </tr>
             ))}
