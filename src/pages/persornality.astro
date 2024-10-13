@@ -1,0 +1,11 @@
+---
+import Layout from '../layouts/Layout.astro'
+import { PersornalityTest } from '../components/PersornalityTest'
+---
+
+<Layout
+  title="ทำสิ่งถวายเกียรติพระเจ้า"
+  description="รายการสิ่งที่ฉันต้องทำใน 7 วันที่จะมาถึง"
+>
+  <PersornalityTest client:only="react" />
+</Layout>
