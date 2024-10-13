@@ -3,9 +3,12 @@ import Layout from '../layouts/Layout.astro'
 import { surveyQuestions } from '../data/qunstions'
 import { spiritualGiftsKey } from '../data/spiritualGifts'
 import type { Question } from '../@types/Question'
-import {TaskForGod}  from '../components/TaskForGod'
+import { TaskForGod } from '../components/TaskForGod'
 ---
 
-<Layout title="แบบสำรวจของประทาน">
+<Layout
+  title="ทำสิ่งถวายเกียรติพระเจ้า"
+  description="รายการสิ่งที่ฉันต้องทำใน 7 วันที่จะมาถึง"
+>
   <TaskForGod client:only="react" />
 </Layout>

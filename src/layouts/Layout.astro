@@ -3,14 +3,16 @@ import Narbar from '../components/Narbar.astro';
 
 interface Props {
   title: string
+  description: string
 }
 
-const { title } = Astro.props
+const { title,description } = Astro.props
 const baseUrl = new URL(Astro.site || '', Astro.url);
 const isProduction = import.meta.env.PROD;
 const basePath = isProduction ? '/GiftFromGod' : ''; // Use base path in production, empty in development
 const faviconUrl = new URL(`${basePath}/SEED_CHURCH_LOGO.png`, baseUrl);
 const ogImageUrl = new URL(`${basePath}/SEED_CHURCH_LOGO.png`, baseUrl);
+
 ---
 
 <html>
@@ -30,12 +32,12 @@ const ogImageUrl = new URL(`${basePath}/SEED_CHURCH_LOGO.png`, baseUrl);
     />
     <link rel="icon" type="image/svg+xml" href={faviconUrl.href} />
       <!-- Open Graph Meta Tags -->
-      <meta property="og:title" content="แบบสำรวจของประทาน" />
-      <meta property="og:description" content="แบบสำรวจของประทานที่พระเจ้าให้มา" />
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={description}/>
       <meta property="og:url" content="https://seedbkkchurch.github.io/GiftFromGod/" />
       <meta property="og:type" content="website" />
       <meta property="og:image" content={ogImageUrl.href} />
-      <meta property="og:site_name" content="แบบสำรวจของประทาน" />
+      <meta property="og:site_name" content={title} />
     <style>
       body {
         font-family: 'K2D', sans-serif;
