@@ -1,0 +1,11 @@
+---
+import Layout from '../layouts/Layout.astro'
+import { surveyQuestions } from '../data/qunstions'
+import { spiritualGiftsKey } from '../data/spiritualGifts'
+import type { Question } from '../@types/Question'
+import {TaskForGod}  from '../components/TaskForGod'
+---
+
+<Layout title="แบบสำรวจของประทาน">
+  <TaskForGod client:only="react" />
+</Layout>
