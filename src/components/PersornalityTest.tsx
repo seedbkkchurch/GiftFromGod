@@ -59,16 +59,16 @@ export const PersornalityTest = () => {
     <div className="container mt-5">
       <h1 className="mb-4 text-center">MBTI Personality Test</h1>
       <div className="card">
-        <div className="card-body">
+        <div className="card-body text-center">
           {personalityTraits.map(trait => (
             <div key={trait.category} className="mb-4">
-              <p className="fw-bold">{trait.question}</p>
-              <div className="btn-group" aria-label={trait.question}>
+              <p className="fw-bold" style={{fontSize:"1.25em"}}>{trait.question}</p>
+              <div className="form-check form-check-inline" aria-label={trait.question}>
                 {trait.options.map(option => (
                   <React.Fragment key={option.value}>
                     <input
                       type="radio"
-                      className="btn-check"
+                      className="form-check-input"
                       name={trait.category}
                       id={`${trait.category}-${option.value}`}
                       checked={
@@ -79,9 +79,10 @@ export const PersornalityTest = () => {
                       onChange={() =>
                         handleChange(trait.category, option.value)
                       }
+                      style={{ width:"1.5em",height:"1.5em"}} 
                     />
                     <label
-                      className="btn btn-outline-primary"
+                      className="mr-4 form-check-label"
                       htmlFor={`${trait.category}-${option.value}`}
                     >
                       {option.label}
