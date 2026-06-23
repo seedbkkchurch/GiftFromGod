@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+
+const MBTI_KEY = 'mbti_state'
 
 // Note: Make sure to include Bootstrap 5 CSS in your project
 // You can add it to your layout.tsx or import it here if needed
@@ -11,6 +13,17 @@ export const PersornalityTest = () => {
     TF: '',
     JP: '',
   })
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem(MBTI_KEY)
+    if (saved) setPersonality(JSON.parse(saved))
+  }, [])
+
+  // Save to localStorage on every change
+  useEffect(() => {
+    localStorage.setItem(MBTI_KEY, JSON.stringify(personality))
+  }, [personality])
 
   const handleChange = (category: string, value: string) => {
     setPersonality(prev => ({ ...prev, [category]: value }))

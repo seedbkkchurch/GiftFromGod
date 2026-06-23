@@ -1,8 +1,39 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import html2canvas from 'html2canvas';
+
+const STORAGE_KEY = 'taskForGod_state';
+
+const defaultState = {
+  todoChecked: Array(7).fill(false),
+  todoText: Array(7).fill(''),
+  honorSelected: -1,
+  honorText: Array(7).fill(''),
+};
 
 export const TaskForGod: React.FC = () => {
   const captureRef = useRef<HTMLDivElement>(null);
+
+  const [todoChecked, setTodoChecked] = useState<boolean[]>(defaultState.todoChecked);
+  const [todoText, setTodoText] = useState<string[]>(defaultState.todoText);
+  const [honorSelected, setHonorSelected] = useState<number>(defaultState.honorSelected);
+  const [honorText, setHonorText] = useState<string[]>(defaultState.honorText);
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      setTodoChecked(parsed.todoChecked ?? defaultState.todoChecked);
+      setTodoText(parsed.todoText ?? defaultState.todoText);
+      setHonorSelected(parsed.honorSelected ?? defaultState.honorSelected);
+      setHonorText(parsed.honorText ?? defaultState.honorText);
+    }
+  }, []);
+
+  // Save to localStorage whenever state changes
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ todoChecked, todoText, honorSelected, honorText }));
+  }, [todoChecked, todoText, honorSelected, honorText]);
 
   const handleScreenshot = async () => {
     if (captureRef.current) {
@@ -32,8 +63,28 @@ export const TaskForGod: React.FC = () => {
             </div>
             {[...Array(7)].map((_, i) => (
               <div key={i} className="form-check d-flex align-items-center mb-2">
-                <input className="form-check-input me-2" type="checkbox" id={`todo-${i}`} />
-                <input type="text" className="form-control form-control-sm" id={`todo-input-${i}`} placeholder="" />
+                <input
+                  className="form-check-input me-2"
+                  type="checkbox"
+                  id={`todo-${i}`}
+                  checked={todoChecked[i]}
+                  onChange={e => {
+                    const next = [...todoChecked];
+                    next[i] = e.target.checked;
+                    setTodoChecked(next);
+                  }}
+                />
+                <input
+                  type="text"
+                  className="form-control form-control-sm"
+                  id={`todo-input-${i}`}
+                  value={todoText[i]}
+                  onChange={e => {
+                    const next = [...todoText];
+                    next[i] = e.target.value;
+                    setTodoText(next);
+                  }}
+                />
               </div>
             ))}
           </div>
@@ -47,8 +98,25 @@ export const TaskForGod: React.FC = () => {
             </div>
             {[...Array(7)].map((_, i) => (
               <div key={i} className="form-check d-flex align-items-center mb-2">
-                <input className="form-check-input me-2" type="radio" name="honor" id={`honor-${i}`} />
-                <input type="text" className="form-control form-control-sm" id={`honor-input-${i}`} placeholder="" />
+                <input
+                  className="form-check-input me-2"
+                  type="radio"
+                  name="honor"
+                  id={`honor-${i}`}
+                  checked={honorSelected === i}
+                  onChange={() => setHonorSelected(i)}
+                />
+                <input
+                  type="text"
+                  className="form-control form-control-sm"
+                  id={`honor-input-${i}`}
+                  value={honorText[i]}
+                  onChange={e => {
+                    const next = [...honorText];
+                    next[i] = e.target.value;
+                    setHonorText(next);
+                  }}
+                />
               </div>
             ))}
           </div>

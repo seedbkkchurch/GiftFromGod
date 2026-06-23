@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import html2canvas from 'html2canvas'
 import { surveyQuestions } from '../data/qunstions'
 import { spiritualGiftsKey, type SpiritualGifts } from '../data/spiritualGifts'
@@ -9,13 +9,36 @@ interface ISpiritualGifts {
   [key: string]: { list: number[]; sum: number }
 }
 
+const STORAGE_KEY = 'tableSum_state'
+
 export const TableSum: React.FC = () => {
   const [sums, setSums] = useState<number[]>(
     Array(spiritualGiftsKey.length).fill(0)
   )
   const [yourName, setYourName] = useState('')
+  const [answers, setAnswers] = useState<{ [key: string]: string }>(() => {
+    const defaults: { [key: string]: string } = {}
+    surveyQuestions.forEach(q => { defaults[`${q.index}`] = '3' })
+    return defaults
+  })
   const captureRef = React.useRef<HTMLDivElement>(null)
   const resultRef = React.useRef<HTMLDivElement>(null)
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY)
+    if (saved) {
+      const parsed = JSON.parse(saved)
+      if (parsed.yourName !== undefined) setYourName(parsed.yourName)
+      if (parsed.answers) setAnswers(parsed.answers)
+      if (parsed.sums) setSums(parsed.sums)
+    }
+  }, [])
+
+  // Save to localStorage whenever state changes
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ yourName, answers, sums }))
+  }, [yourName, answers, sums])
 
   const handleExportJson = (spiritualGifts:ISpiritualGifts)=> {
     const dataStr = JSON.stringify(spiritualGifts, null, 2)
@@ -30,12 +53,9 @@ export const TableSum: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const formData = new FormData(e.currentTarget)
-    const selectedValues: { index: string; value: number }[] = []
-
-    for (let [name, value] of formData.entries()) {
-      selectedValues.push({ index: name, value: parseInt(value as string) })
-    }
+    const selectedValues: { index: string; value: number }[] = Object.entries(answers)
+      .filter(([key]) => key !== 'yourName')
+      .map(([key, value]) => ({ index: key, value: parseInt(value) }))
 
     const spiritualGifts: { [key: string]: { list: number[]; sum: number } } = {
       เผยพระวจนะ: { list: [1, 26, 51, 76, 101], sum: 0 },
@@ -124,23 +144,19 @@ export const TableSum: React.FC = () => {
                 <tr key={item.index}>
                   <th scope="row">{item.index}</th>
                   <td>{item.question}</td>
-                  <td>
-                    <input
-                      type="radio"
-                      name={`${item.index}`}
-                      value="3"
-                      defaultChecked
-                    />
-                  </td>
-                  <td>
-                    <input type="radio" name={`${item.index}`} value="2" />
-                  </td>
-                  <td>
-                    <input type="radio" name={`${item.index}`} value="1" />
-                  </td>
-                  <td>
-                    <input type="radio" name={`${item.index}`} value="0" />
-                  </td>
+                  {['3', '2', '1', '0'].map(val => (
+                    <td key={val}>
+                      <input
+                        type="radio"
+                        name={`${item.index}`}
+                        value={val}
+                        checked={answers[`${item.index}`] === val}
+                        onChange={() =>
+                          setAnswers(prev => ({ ...prev, [`${item.index}`]: val }))
+                        }
+                      />
+                    </td>
+                  ))}
                 </tr>
               ))}
             </tbody>
