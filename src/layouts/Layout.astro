@@ -13,6 +13,16 @@ const basePath = isProduction ? '/GiftFromGod' : ''; // Use base path in product
 const faviconUrl = new URL(`${basePath}/SEED_CHURCH_LOGO.png`, baseUrl);
 const ogImageUrl = new URL(`${basePath}/SEED_CHURCH_LOGO.png`, baseUrl);
 
+const buildDate = new Date();
+const lastUpdated = buildDate.toLocaleString('th-TH', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit',
+  timeZone: 'Asia/Bangkok',
+});
+
 ---
 
 <html>
@@ -48,5 +58,8 @@ const ogImageUrl = new URL(`${basePath}/SEED_CHURCH_LOGO.png`, baseUrl);
   <body>
     <Narbar></Narbar>
     <slot />
+    <footer class="text-center text-muted py-3 mt-4" style="font-size: 0.85rem; border-top: 1px solid #dee2e6;">
+      อัปเดตล่าสุด: {lastUpdated}
+    </footer>
   </body>
 </html>
