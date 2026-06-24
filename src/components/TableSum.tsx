@@ -161,9 +161,22 @@ export const TableSum: React.FC = () => {
               ))}
             </tbody>
           </table>
+          <div className="card border-warning mb-3 mt-4" style={{ borderWidth: '2px' }}>
+            <div className="card-header bg-warning text-dark fw-bold fs-5">
+              📋 ขั้นตอนการทำแบบสำรวจ (กรุณาอ่านก่อนบันทึก)
+            </div>
+            <div className="card-body">
+              <ol className="mb-0 fs-6" style={{ lineHeight: '2' }}>
+                <li><strong>ทำให้ครบ 125 ข้อ</strong> — ตอบทุกข้อในตารางด้านบน</li>
+                <li><strong>กด Calculate</strong> — เพื่อคำนวณคะแนนของประทาน</li>
+                <li><strong>ใส่ชื่อในฟอร์ม</strong> — พิมพ์ชื่อของตัวเองในช่องด้านล่าง</li>
+                <li><strong>กด บันทึกรูปภาพตาราง Stat</strong> — เพื่อบันทึกผลลัพธ์</li>
+              </ol>
+            </div>
+          </div>
           <fieldset className="btn-group" aria-label="Basic example">
             <button type="submit" className="btn btn-primary mt-3 mr-4">
-              Calculate and Download JSON
+              Calculate
             </button>
             <button
               onClick={handleScreenshot}
