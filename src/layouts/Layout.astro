@@ -1,19 +1,19 @@
 ---
-import Narbar from '../components/Narbar.astro';
+import Narbar from '../components/Narbar.astro'
 
 interface Props {
   title: string
   description: string
 }
 
-const { title,description } = Astro.props
-const baseUrl = new URL(Astro.site || '', Astro.url);
-const isProduction = import.meta.env.PROD;
-const basePath = isProduction ? '/GiftFromGod' : ''; // Use base path in production, empty in development
-const faviconUrl = new URL(`${basePath}/SEED_CHURCH_LOGO.png`, baseUrl);
-const ogImageUrl = new URL(`${basePath}/SEED_CHURCH_LOGO.png`, baseUrl);
+const { title, description } = Astro.props
+const baseUrl = new URL(Astro.site || '', Astro.url)
+const isProduction = import.meta.env.PROD
+const basePath = isProduction ? '/GiftFromGod' : '' // Use base path in production, empty in development
+const faviconUrl = new URL(`${basePath}/SEED_CHURCH_LOGO.png`, baseUrl)
+const ogImageUrl = new URL(`${basePath}/SEED_CHURCH_LOGO.png`, baseUrl)
 
-const buildDate = new Date();
+const buildDate = new Date()
 const lastUpdated = buildDate.toLocaleString('th-TH', {
   year: 'numeric',
   month: 'long',
@@ -21,8 +21,7 @@ const lastUpdated = buildDate.toLocaleString('th-TH', {
   hour: '2-digit',
   minute: '2-digit',
   timeZone: 'Asia/Bangkok',
-});
-
+})
 ---
 
 <html>
@@ -41,32 +40,41 @@ const lastUpdated = buildDate.toLocaleString('th-TH', {
       rel="stylesheet"
     />
     <link rel="icon" type="image/svg+xml" href={faviconUrl.href} />
-      <!-- Open Graph Meta Tags -->
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={description}/>
-      <meta property="og:url" content="https://seedbkkchurch.github.io/GiftFromGod/" />
-      <meta property="og:type" content="website" />
-      <meta property="og:image" content={ogImageUrl.href} />
-      <meta property="og:site_name" content={title} />
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta
+      property="og:url"
+      content="https://seedbkkchurch.github.io/GiftFromGod/"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content={ogImageUrl.href} />
+    <meta property="og:site_name" content={title} />
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-E90NY0GNXZ"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-E90NY0GNXZ');
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-E90NY0GNXZ"
+    ></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || []
+      function gtag() {
+        dataLayer.push(arguments)
+      }
+      gtag('js', new Date())
+      gtag('config', 'G-E90NY0GNXZ')
     </script>
     <style>
       body {
         font-family: 'K2D', sans-serif;
       }
-    </style></head
-  >
+    </style>
+  </head>
 
   <body>
-    <Narbar></Narbar>
+    <Narbar />
     <slot />
-    <footer class="text-center text-muted py-3 mt-4" style="font-size: 0.85rem; border-top: 1px solid #dee2e6;">
+    <footer
+      class="text-center text-muted py-3 mt-4"
+      style="font-size: 0.85rem; border-top: 1px solid #dee2e6;"
+    >
       อัปเดตล่าสุด: {lastUpdated}
     </footer>
   </body>
