@@ -48,6 +48,14 @@ const lastUpdated = buildDate.toLocaleString('th-TH', {
       <meta property="og:type" content="website" />
       <meta property="og:image" content={ogImageUrl.href} />
       <meta property="og:site_name" content={title} />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-E90NY0GNXZ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-E90NY0GNXZ');
+    </script>
     <style>
       body {
         font-family: 'K2D', sans-serif;
