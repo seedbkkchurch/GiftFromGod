@@ -1,8 +1,9 @@
 ---
-const baseUrl = new URL(Astro.site || '', Astro.url);
-const isProduction = import.meta.env.PROD;
-const basePath = isProduction ? '/GiftFromGod' : ''; // Use base path in production, empty in development
+const baseUrl = new URL(Astro.site || '', Astro.url)
+const isProduction = import.meta.env.PROD
+const basePath = isProduction ? '/GiftFromGod' : '' // Use base path in production, empty in development
 ---
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">

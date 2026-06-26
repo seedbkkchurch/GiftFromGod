@@ -18,7 +18,9 @@ export const TableSum: React.FC = () => {
   const [yourName, setYourName] = useState('')
   const [answers, setAnswers] = useState<{ [key: string]: string }>(() => {
     const defaults: { [key: string]: string } = {}
-    surveyQuestions.forEach(q => { defaults[`${q.index}`] = '3' })
+    surveyQuestions.forEach(q => {
+      defaults[`${q.index}`] = '3'
+    })
     return defaults
   })
   const captureRef = React.useRef<HTMLDivElement>(null)
@@ -37,10 +39,13 @@ export const TableSum: React.FC = () => {
 
   // Save to localStorage whenever state changes
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ yourName, answers, sums }))
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ yourName, answers, sums })
+    )
   }, [yourName, answers, sums])
 
-  const handleExportJson = (spiritualGifts:ISpiritualGifts)=> {
+  const handleExportJson = (spiritualGifts: ISpiritualGifts) => {
     const dataStr = JSON.stringify(spiritualGifts, null, 2)
     const blob = new Blob([dataStr], { type: 'application/json' })
     const url = URL.createObjectURL(blob)
@@ -53,7 +58,9 @@ export const TableSum: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const selectedValues: { index: string; value: number }[] = Object.entries(answers)
+    const selectedValues: { index: string; value: number }[] = Object.entries(
+      answers
+    )
       .filter(([key]) => key !== 'yourName')
       .map(([key, value]) => ({ index: key, value: parseInt(value) }))
 
@@ -152,7 +159,10 @@ export const TableSum: React.FC = () => {
                         value={val}
                         checked={answers[`${item.index}`] === val}
                         onChange={() =>
-                          setAnswers(prev => ({ ...prev, [`${item.index}`]: val }))
+                          setAnswers(prev => ({
+                            ...prev,
+                            [`${item.index}`]: val,
+                          }))
                         }
                       />
                     </td>
@@ -161,16 +171,29 @@ export const TableSum: React.FC = () => {
               ))}
             </tbody>
           </table>
-          <div className="card border-warning mb-3 mt-4" style={{ borderWidth: '2px' }}>
+          <div
+            className="card border-warning mb-3 mt-4"
+            style={{ borderWidth: '2px' }}
+          >
             <div className="card-header bg-warning text-dark fw-bold fs-5">
               📋 ขั้นตอนการทำแบบสำรวจ (กรุณาอ่านก่อนบันทึก)
             </div>
             <div className="card-body">
               <ol className="mb-0 fs-6" style={{ lineHeight: '2' }}>
-                <li><strong>ทำให้ครบ 125 ข้อ</strong> — ตอบทุกข้อในตารางด้านบน</li>
-                <li><strong>กด Calculate</strong> — เพื่อคำนวณคะแนนของประทาน</li>
-                <li><strong>ใส่ชื่อในฟอร์ม</strong> — พิมพ์ชื่อของตัวเองในช่องด้านล่าง</li>
-                <li><strong>กด บันทึกรูปภาพตาราง Stat</strong> — เพื่อบันทึกผลลัพธ์</li>
+                <li>
+                  <strong>ทำให้ครบ 125 ข้อ</strong> — ตอบทุกข้อในตารางด้านบน
+                </li>
+                <li>
+                  <strong>กด Calculate</strong> — เพื่อคำนวณคะแนนของประทาน
+                </li>
+                <li>
+                  <strong>ใส่ชื่อในฟอร์ม</strong> —
+                  พิมพ์ชื่อของตัวเองในช่องด้านล่าง
+                </li>
+                <li>
+                  <strong>กด บันทึกรูปภาพตาราง Stat</strong> —
+                  เพื่อบันทึกผลลัพธ์
+                </li>
               </ol>
             </div>
           </div>

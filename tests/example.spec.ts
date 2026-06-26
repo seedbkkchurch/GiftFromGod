@@ -1,5 +1,8 @@
 import { test, expect, type Page } from '@playwright/test'
-import { spiritualGiftsKey, type SpiritualGifts } from '../src/data/spiritualGifts'
+import {
+  spiritualGiftsKey,
+  type SpiritualGifts,
+} from '../src/data/spiritualGifts'
 
 interface SpiritualGift {
   list: number[]
@@ -9,12 +12,12 @@ const spiritualGifts: { [key: string]: SpiritualGift } = {
   เผยพระวจนะ: { list: [1, 26, 51, 76, 101], sum: 0 },
   อภิบาล: { list: [2, 27, 52, 77, 102], sum: 0 },
   การสอน: { list: [3, 28, 53, 78, 103], sum: 0 },
-  ถ้อยคำประกอบด้วยสติปัญญา: { list: [4,29, 54, 79, 104], sum: 0 },
-  ถ้อยคำประกอบด้วยความรู้: { list: [5,30, 55, 80, 105], sum: 0 },
-  การตักเตือนและหนุนใจ: { list: [6,31, 56, 81, 106], sum: 0 },
-  การสังเกตวิญญาณ: { list: [7,32, 57, 82, 107], sum: 0 },
+  ถ้อยคำประกอบด้วยสติปัญญา: { list: [4, 29, 54, 79, 104], sum: 0 },
+  ถ้อยคำประกอบด้วยความรู้: { list: [5, 30, 55, 80, 105], sum: 0 },
+  การตักเตือนและหนุนใจ: { list: [6, 31, 56, 81, 106], sum: 0 },
+  การสังเกตวิญญาณ: { list: [7, 32, 57, 82, 107], sum: 0 },
   การบริจาค: { list: [8, 33, 58, 83, 108], sum: 0 },
-  การปรนนิบัติ : { list: [9, 34, 59, 84, 109], sum: 0 },
+  การปรนนิบัติ: { list: [9, 34, 59, 84, 109], sum: 0 },
   ความเมตตา: { list: [10, 35, 60, 85, 110], sum: 0 },
   มิชชันนารี: { list: [11, 36, 61, 86, 111], sum: 0 },
   ผู้ประกาศ: { list: [12, 37, 62, 87, 112], sum: 0 },
@@ -72,9 +75,9 @@ const testSum = async (
   checkedValue: number[]
 ) => {
   await page.goto('http://localhost:4321/GiftFromGod')
-  const key:SpiritualGifts = spiritualGiftsKey[indexKey]
+  const key: SpiritualGifts = spiritualGiftsKey[indexKey]
   const list = spiritualGifts[key.Gift].list
-  console.log("list", list);
+  console.log('list', list)
 
   const expectedSum = checkedValue.reduce(
     (accumulator, currentValue) => accumulator + currentValue,

@@ -75,8 +75,13 @@ export const PersornalityTest = () => {
         <div className="card-body text-center">
           {personalityTraits.map(trait => (
             <div key={trait.category} className="mb-4">
-              <p className="fw-bold" style={{fontSize:"1.25em"}}>{trait.question}</p>
-              <div className="form-check form-check-inline" aria-label={trait.question}>
+              <p className="fw-bold" style={{ fontSize: '1.25em' }}>
+                {trait.question}
+              </p>
+              <div
+                className="form-check form-check-inline"
+                aria-label={trait.question}
+              >
                 {trait.options.map(option => (
                   <React.Fragment key={option.value}>
                     <input
@@ -92,7 +97,7 @@ export const PersornalityTest = () => {
                       onChange={() =>
                         handleChange(trait.category, option.value)
                       }
-                      style={{ width:"1.5em",height:"1.5em"}} 
+                      style={{ width: '1.5em', height: '1.5em' }}
                     />
                     <label
                       className="mr-4 form-check-label"
