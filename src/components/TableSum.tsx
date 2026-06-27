@@ -5,9 +5,9 @@ import { spiritualGiftsKey, type SpiritualGifts } from '../data/spiritualGifts'
 import type { Question } from '../@types/Question'
 import HoverImage from './HoverImage'
 
-interface ISpiritualGifts {
-  [key: string]: { list: number[]; sum: number }
-}
+type ExportTab = 'image' | 'text'
+type TextFormat = 'markdown' | 'plain'
+
 
 const STORAGE_KEY = 'tableSum_state'
 
@@ -23,6 +23,9 @@ export const TableSum: React.FC = () => {
     })
     return defaults
   })
+  const [exportTab, setExportTab] = useState<ExportTab>('image')
+  const [textFormat, setTextFormat] = useState<TextFormat>('markdown')
+  const [copyStatus, setCopyStatus] = useState<'idle' | 'copied'>('idle')
   const captureRef = React.useRef<HTMLDivElement>(null)
   const resultRef = React.useRef<HTMLDivElement>(null)
 
@@ -45,16 +48,6 @@ export const TableSum: React.FC = () => {
     )
   }, [yourName, answers, sums])
 
-  const handleExportJson = (spiritualGifts: ISpiritualGifts) => {
-    const dataStr = JSON.stringify(spiritualGifts, null, 2)
-    const blob = new Blob([dataStr], { type: 'application/json' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = 'spiritualGifts.json'
-    a.click()
-    URL.revokeObjectURL(url)
-  }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -105,7 +98,6 @@ export const TableSum: React.FC = () => {
 
     const newSums = keys.map(key => spiritualGifts[key].sum)
     setSums(newSums)
-    handleExportJson(spiritualGifts)
   }
 
   const handleScreenshot = async () => {
@@ -126,6 +118,49 @@ export const TableSum: React.FC = () => {
       link.click() // Trigger the download
     }
   }
+  const buildMarkdownText = () => {
+    const header = `| ชื่อของประทาน | รวม (คะแนนเต็ม 15) |\n| --- | --- |`
+    const rows = spiritualGiftsKey
+      .map((item: SpiritualGifts, index: number) => `| ${item.Gift} | ${sums[index]} |`)
+      .join('\n')
+    return `${yourName ? `Stat ของประทานของ ${yourName}\n\n` : ''}${header}\n${rows}`
+  }
+
+  const buildPlainText = () => {
+    const col1Header = 'ชื่อของประทาน'
+    const col2Header = 'รวม (คะแนนเต็ม 15)'
+    // นับเฉพาะ character ที่มีความกว้างจริง — ตัด Thai combining marks ออก
+    //
+    const visualLen = (s: string) =>
+      [...s].filter(c => {
+        const code = c.charCodeAt(0)
+        return !(
+          code === 0x0e31 ||                        // ั
+          (code >= 0x0e34 && code <= 0x0e3a) ||     // ิ ี ึ ื ุ ู ฺ
+          (code >= 0x0e47 && code <= 0x0e4e)        // ็ ่ ้ ๊ ๋ ์ ํ ๎
+        )
+      }).length
+    const maxLen = Math.max(
+      visualLen(col1Header),
+      ...spiritualGiftsKey.map((item: SpiritualGifts) => visualLen(item.Gift))
+    )
+    const pad = (s: string) => s + ' '.repeat(maxLen - visualLen(s) + 4)
+    const header = `${pad(col1Header)}${col2Header}`
+    const sep = '-'.repeat(maxLen + col2Header.length + 4)
+    const rows = spiritualGiftsKey
+      .map((item: SpiritualGifts, index: number) => `${pad(item.Gift)}${sums[index]}`)
+      .join('\n')
+    return `${yourName ? `Stat ของประทานของ ${yourName}\n\n` : ''}${header}\n${sep}\n${rows}`
+  }
+
+  const handleCopyText = () => {
+    const text = textFormat === 'markdown' ? buildMarkdownText() : buildPlainText()
+    navigator.clipboard.writeText(text).then(() => {
+      setCopyStatus('copied')
+      setTimeout(() => setCopyStatus('idle'), 2000)
+    })
+  }
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setYourName(e.target.value)
   }
@@ -176,7 +211,7 @@ export const TableSum: React.FC = () => {
             style={{ borderWidth: '2px' }}
           >
             <div className="card-header bg-warning text-dark fw-bold fs-5">
-              📋 ขั้นตอนการทำแบบสำรวจ (กรุณาอ่านก่อนบันทึก)
+              📋 ขั้นตอน (กรุณาอ่านก่อนบันทึก)
             </div>
             <div className="card-body">
               <ol className="mb-0 fs-6" style={{ lineHeight: '2' }}>
@@ -191,25 +226,22 @@ export const TableSum: React.FC = () => {
                   พิมพ์ชื่อของตัวเองในช่องด้านล่าง
                 </li>
                 <li>
-                  <strong>กด บันทึกรูปภาพตาราง Stat</strong> —
-                  เพื่อบันทึกผลลัพธ์
+                  <strong>กด บันทึกรูปภาพหรือกดบันทึกเป็นtextตาราง Stat</strong> —
+                  เพื่อบันทึกผลลัพธ์เก็บไว้ หรือคัดลอกข้อความตาราง Stat ไปใช้ต่อ
+                </li>
+                <li>
+                  <strong>NOTE สำหรับการบันทึกภาพ</strong> —
+                  ถ้ากด link จาก  message or facebook or ig จะมีปัญหาเรื่องการบันทึกภาพให้ copy link ของหน้าเว็บนี้ไปเปิดใน browser  หรือ copy text ไปจะง่ายกว่า
                 </li>
               </ol>
             </div>
           </div>
-          <fieldset className="btn-group" aria-label="Basic example">
-            <button type="submit" className="btn btn-primary mt-3 mr-4">
-              Calculate
-            </button>
-            <button
-              onClick={handleScreenshot}
-              className="btn btn-secondary mt-3 mr-4"
-            >
-              บันรูปภาพตาราง Stat
-            </button>
-          </fieldset>
+          <button type="submit" className="btn btn-primary mt-3">
+            Calculate
+          </button>
+
           <input
-            className="form-control form-control-lg mt-2"
+            className="form-control form-control-lg mt-3"
             type="text"
             placeholder="พิมพ์ชื่อของตัวเอง..."
             name="yourName"
@@ -217,7 +249,97 @@ export const TableSum: React.FC = () => {
             onChange={handleInputChange}
           />
 
-          <div ref={resultRef} className="mt-3"></div>
+          {/* Export Tabs */}
+          <div className="mt-4">
+            <ul className="nav nav-tabs">
+              <li className="nav-item">
+                <button
+                  type="button"
+                  className={`nav-link ${exportTab === 'image' ? 'active' : ''}`}
+                  onClick={() => setExportTab('image')}
+                >
+                  📷 บันทึกรูปภาพ
+                </button>
+              </li>
+              <li className="nav-item">
+                <button
+                  type="button"
+                  className={`nav-link ${exportTab === 'text' ? 'active' : ''}`}
+                  onClick={() => setExportTab('text')}
+                >
+                  📋 คัดลอกข้อความ
+                </button>
+              </li>
+            </ul>
+
+            <div className="border border-top-0 rounded-bottom p-3">
+              {exportTab === 'image' && (
+                <div>
+                  <p className="text-muted mb-2" style={{ fontSize: '0.9rem' }}>
+                    ดาวน์โหลดตาราง Stat เป็นไฟล์รูปภาพ (.png)
+                  </p>
+                  <button
+                    type="button"
+                    onClick={handleScreenshot}
+                    className="btn btn-secondary"
+                  >
+                    📥 บันทึกรูปภาพตาราง Stat
+                  </button>
+                  <div ref={resultRef} className="mt-3"></div>
+                </div>
+              )}
+
+              {exportTab === 'text' && (
+                <div>
+                  {/* Format selector */}
+                  <div className="mb-3">
+                    <div className="form-check form-check-inline">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        id="fmt-markdown"
+                        name="textFormat"
+                        checked={textFormat === 'markdown'}
+                        onChange={() => setTextFormat('markdown')}
+                      />
+                      <label className="form-check-label" htmlFor="fmt-markdown">
+                        Markdown Table
+                      </label>
+                    </div>
+                    <div className="form-check form-check-inline">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        id="fmt-plain"
+                        name="textFormat"
+                        checked={textFormat === 'plain'}
+                        onChange={() => setTextFormat('plain')}
+                      />
+                      <label className="form-check-label" htmlFor="fmt-plain">
+                        Plain Text (เว้นวรรคตรงคอลัมน์)
+                      </label>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleCopyText}
+                    className={`btn mb-3 ${copyStatus === 'copied' ? 'btn-success' : 'btn-outline-primary'}`}
+                  >
+                    {copyStatus === 'copied' ? '✅ คัดลอกแล้ว!' : '📋 คัดลอกข้อความ'}
+                  </button>
+
+                  {/* Preview */}
+                  <div
+                    className="p-3 bg-light rounded"
+                    style={{ fontFamily: 'monospace', fontSize: '0.85rem', whiteSpace: 'pre', overflowX: 'auto' }}
+                  >
+                    {textFormat === 'markdown' ? buildMarkdownText() : buildPlainText()}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
         </form>
       </div>
       <div className="container mt-5" ref={captureRef}>
