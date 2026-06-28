@@ -12,25 +12,25 @@ export const spiritualGiftsKey: SpiritualGifts[] = [
     Gift: `ถ้อยคำประกอบด้วยสติปัญญา`,
     pathImages: `${path}/ถอยคำประกอบด้วยสติปัญญา.png`,
   },
-  { Gift: `ถ้อยคำประกอบด้วยความรู้`, pathImages: `${path}/ความรู้.png` },
-  { Gift: `การตักเตือนและหนุนใจ`, pathImages: `${path}/การหนุนใจ.png` },
-  { Gift: `การสังเกตวิญญาณ`, pathImages: `${path}/ความหยั่งรู้.png` },
-  { Gift: `การบริจาค`, pathImages: `${path}/การให้.png` },
-  { Gift: `การปรนนิบัติ`, pathImages: `${path}/การรับใช้.png` },
-  { Gift: `ความเมตตา`, pathImages: `${path}/ความเมตตา.png` },
-  { Gift: `มิชชันนารี`, pathImages: `${path}/มิชชันนารี.png` },
-  { Gift: `ผู้ประกาศ`, pathImages: `${path}/การประกาศ.png` },
-  { Gift: `การรับรองแขก`, pathImages: `${path}/แขก.png` },
-  { Gift: `ความเชื่อ`, pathImages: `${path}/ความเชื่อ.png` },
-  { Gift: `ผู้ครอบครอง`, pathImages: `${path}/ความเป็นผู้นำ.png` },
-  { Gift: `ผู้บริหาร`, pathImages: `${path}/ผู้บริหาร.png` },
-  { Gift: `การอัศจรรย์`, pathImages: `${path}/การอัศจรรย์.png` },
-  { Gift: `การรักษาโรค`, pathImages: `${path}/การรักษาโรค.png` },
-  { Gift: `การพูดภาษาแปลก`, pathImages: `${path}/ภาษาแปลก.png` },
-  { Gift: `การแปลภาษาแปลก`, pathImages: `${path}/แปลภาษาแปลก.png` },
-  { Gift: `อัครทูต`, pathImages: `${path}/อัครฑูต.png` },
-  { Gift: `การอยู่เป็นโสด`, pathImages: `${path}/โสด.png` },
-  { Gift: `การอธิษฐานอ้อนวอน`, pathImages: `${path}/อธิฐาน.png` },
-  { Gift: `การขับผี`, pathImages: `${path}/ไล่ผี.png` },
-  { Gift: `ผู้อุปการะ`, pathImages: `${path}/อุปการะ.png` },
+  { Gift: `ถ้อยคำประกอบด้วยความรู้`, pathImages: `${path}/ความรู้.png` }, //Words that are full of knowledge
+  { Gift: `การตักเตือนและหนุนใจ`, pathImages: `${path}/การหนุนใจ.png` }, //To and warn and encourage
+  { Gift: `การสังเกตวิญญาณ`, pathImages: `${path}/ความหยั่งรู้.png` }, //To discern spirits
+  { Gift: `การบริจาค`, pathImages: `${path}/การให้.png` }, //Offering
+  { Gift: `การปรนนิบัติ`, pathImages: `${path}/การรับใช้.png` }, //To serve
+  { Gift: `ความเมตตา`, pathImages: `${path}/ความเมตตา.png` }, //Mercifulness
+  { Gift: `มิชชันนารี`, pathImages: `${path}/มิชชันนารี.png` }, //Missionary
+  { Gift: `ผู้ประกาศ`, pathImages: `${path}/การประกาศ.png` }, //Gospel Preacher
+  { Gift: `การรับรองแขก`, pathImages: `${path}/แขก.png` }, //To welcome guests
+  { Gift: `ความเชื่อ`, pathImages: `${path}/ความเชื่อ.png` }, //Faith
+  { Gift: `ผู้ครอบครอง`, pathImages: `${path}/ความเป็นผู้นำ.png` }, //Leader
+  { Gift: `ผู้บริหาร`, pathImages: `${path}/ผู้บริหาร.png` }, //Administrator
+  { Gift: `การอัศจรรย์`, pathImages: `${path}/การอัศจรรย์.png` }, //Miracles
+  { Gift: `การรักษาโรค`, pathImages: `${path}/การรักษาโรค.png` }, //Healing
+  { Gift: `การพูดภาษาแปลก`, pathImages: `${path}/ภาษาแปลก.png` }, //Speaking in tongues
+  { Gift: `การแปลภาษาแปลก`, pathImages: `${path}/แปลภาษาแปลก.png` }, //Interpretation of tongues
+  { Gift: `อัครทูต`, pathImages: `${path}/อัครฑูต.png` }, //Apostle
+  { Gift: `การอยู่เป็นโสด`, pathImages: `${path}/โสด.png` }, //Celibacy
+  { Gift: `การอธิษฐานอ้อนวอน`, pathImages: `${path}/อธิฐาน.png` }, //Intercessory prayer
+  { Gift: `การขับผี`, pathImages: `${path}/ไล่ผี.png` }, //Exorcist
+  { Gift: `ผู้อุปการะ`, pathImages: `${path}/อุปการะ.png` }, //Supporter
 ]
